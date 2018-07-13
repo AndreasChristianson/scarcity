@@ -1,18 +1,28 @@
 sudo: required
-
-language: javascript
-
-#services:
-#  - docker
+language: node_js
+node_js:
+  - "10"
 
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
+    - secure: kpjhaml32xesJJ2KP2+ACGQ5FDcxryuAHUEsdxwBOUnVHvIo8h9iafPiyAn18rHFhgVOdQulDSOLCSySuiYNsE9JVZdSUA3L8Skf+CB6ncH+9s9zwZHw+orFAQgEbx94wPGnIIwkeStdzjnkXLqxGGWD3OhAPcuv+zjte9k5JhQgHlFLFhSja8qi+LcEDVKo1u+SlRX4I3Q8wYr3V92hU7bjd4FSBJ5DNpKk7T2cL5oqu1LaC+k9cGAg9EP8ucaYNSoyzj7B469nW+8RW+7QaupEvD7Ppfz4GsaYxOVltErCEfVf9TAo9zF186GrX83P3ijQHXFqDsD9PuNBLMIEuqu9kH9I2k38FVtj1C04gdgS0g8m5gQvHAi0N03e8v5Pu7D+EraxY3g0tygzLkF8B88ocXLiAC7KYzbT1RYXiORkk8qmWmhKNiMKEWbfv2NFVnKktmyTD2HzPIoD7ORgf3jvQenHfqfJOKBx2UijH5ahMIJW2USv7bJ0GFwvc5xBwSgv+uEEo4L7aCFw9syEvaLjb4HLhgPBlh/4rX+roDj9V9JZuuXjjH/e9AvN3OppdCtpbiAVlCjiXvNL2FJNfC68SYMVnyzHBPjPKXO+R1Y57XTcKhNYEGYpPZFkdM8n9M7l4CFME7MLxvxf1X1rYJpsoopZ4VuDzvxW9o0L5Es=
+    - secure: Mp3mvlTsNu3la+0aWgoy8ARSwdeInyhmjvVKZJAXI8Ax/gSvpsEGBQBSSGBbeoHoMQsdZB1wjexHN81g8nWjRB61U/Qk2p/o5i6hNDpWGQ383YsuGUCaqpzxAWHCNVE1mXeefPGmKBBCSWf3vAjpFD9xh+XP7rc8j/SOuHWnxvzqCtki/X71dfJRGzifLXF7LL+nBvzuILk6kIQ1k50PJ8HmgS2jKN7xn9wCqyuYLCqt1aa+1a46oRtSJPT33bra3CwZ5mB0/Is7Y7z6Mtp//XuWupxzJ9yE6blVptA6Ua39yut4UYLxS/GuupAnZJ3E35/jB7novox/j4wi1mBfj9P5qPAShFz890PES6AV1OPvzRRHFlYGp8oQNojimPDKtyxqSE87Dbr9IDPMtGnVIgejrUC3hiZwH/iGiCI7yOV8lGY+HVIhz6IsSOZRAQTp2WzXGrzpqPaxPfGfpHZ0hMayRwpaTO2N+/b2nz2obb3IufAgMocCkHsDeT11vxQsaJUQUvLXN3ZQuma6Rw0qFqVhJo0yg1qO43IaKKmrCpt7wpIzLyHIbcdwJsHspNl/rAw1nm2p9YjDf4uPZQekzXoiFMqKtozN7p5wVRHNwMT2WDtvfNcEgqT+jY7GSJUrLQIgUCvegRCwpk6l+GHPtXqO5oU2nquWtyb4Ea9guP8=
+    - secure: F0n9k4VG4gW0qsuTm36LL83Gc0RVjUKr6B8AwmNTZPYmaGagcETxWaOnwO9wllJ1nSLV7zRFUNuj1PkmgVzaGYJS22sI3Wv7mv+F7lNAWbcSihMiNOxI3CCIK5AxdRevz/th78m/1RG90tGVkLqDoooglg9mIEj1a8eqPFEAmwo+oWB7hRW5/ac3glGC6bC2m7/DWeG/9o7TuMytjJp2zrnKx9DrOoAIsmq4S5nvMYxmthw1HRFoFLsMsDjPFu2mU4/dnhohZXlyV51sr4UwXCbSb3XFWfN5pNG0XBNZk3BqPquNJ7bno8eGQ3stmQk/y/JHFzCkla64wk+sSHER+3mv8jNeyR+FRUkjEZDQcs0fCVcAxMkB0ilMapQ4lOcEaF/neO00YeWeD+bzZzmNDG6S+otq7u5AVRSnPMkVYiroLx3D1kpja49FsC0+2Deee/H44pS4A8H1IxcTTQiQRSau7MGT9yEKO1uArpqvo7Q7IRApd/GkFZjwqS7R536Xwxsj2zdh/U73ydA3FXeTPW9qRTPRgsDX/+uKAOjsAh0qnfyEE5JIoHaUjDtrTS6ydTsq6CvMXQj0LfCuz2qcq5Iw6OfVQYCLHptZrxuXHOcg0R+sT9qys64huDL3j8h9+UilwZCW8wJDd282go3lve6lnKtpgxzopBOXa5OFqvI=
+
+before_install:
+  - docker --version
 
 install:
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get -qq update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - npm install
+
 script:
-  - docker build -t scarcity:${COMMIT} .
+  - npm test
+  - npm run build
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  on:
+    branch: master
+  script: bash scripts/deploy.sh
