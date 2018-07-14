@@ -1,5 +1,6 @@
 FROM node:10-alpine
 WORKDIR /root/
+
 COPY package*.json ./
 RUN npm install --only=production
 
