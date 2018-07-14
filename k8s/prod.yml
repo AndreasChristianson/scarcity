@@ -37,6 +37,7 @@ metadata:
   name: scarcity-service
 spec:
   type: LoadBalancer
+  loadBalancerIP: "35.239.165.140"
   ports:
   - name: http
     port: 80
