@@ -1,12 +1,10 @@
 import Hapi from 'hapi';
-import config from 'config';
 import plugins from './plugins';
 import routes from './routes';
+import getServerOptions from './get-server-options';
 
 export default async () => {
-  const server = Hapi.server({
-      port: config.get('server.port')
-  });
+  const server = Hapi.server(getServerOptions());
 
     await Promise.all(
       plugins.map((plugin) => server.register(plugin))

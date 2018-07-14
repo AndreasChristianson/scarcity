@@ -1,5 +1,7 @@
 module.exports = {
-  server:{
-    port: process.env['SCARCITY_PORT']||8080
+  server: {
+    options: {
+      port: process.env['SCARCITY_PORT'] || 8080
+    }
   }
 }

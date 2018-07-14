@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: scarcity-deployment
+  name: scarcity-app
 spec:
   replicas: 2
   template:
@@ -18,10 +18,18 @@ spec:
           httpGet:
             path: /healthz
             port: 80
-        #command: ["sh", "-c", "app -frontend=true -backend-service=http://gceme-backend:8080 -port=80"]
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
         ports:
         - name: scarcity-port
           containerPort: 80
+        resources:
+          limits:
+            cpu: "200m"
+          requests:
+            cpu: 0
 ---
 kind: Service
 apiVersion: v1
@@ -36,3 +44,38 @@ spec:
     protocol: TCP
   selector:
     app: scarcity
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: scarcity-redis
+spec:
+  template:
+    metadata:
+      name: redis-template
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis-container
+        image: redis:4-alpine
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+        ports:
+        - containerPort: 6379
+          name: redis-port
+        resources:
+          limits:
+            cpu: "50m"
+          requests:
+            cpu: 0
