@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: scarcity-container
-        image: andreaschristianson/scarcity:latest
+        image: andreaschristianson/scarcity:$COMMIT
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -22,6 +22,7 @@ spec:
           httpGet:
             path: /healthz
             port: 80
+          periodSeconds: 60
         ports:
         - name: scarcity-port
           containerPort: 80
