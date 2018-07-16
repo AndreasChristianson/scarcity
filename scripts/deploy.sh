@@ -26,8 +26,11 @@ if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   #todo: extract these
   gcloud config set project scarcity-project
   gcloud config set compute/zone us-central1-a
-  
 
-  gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME #--zone=us-central1-a
-  kubectl apply -f k8s/prod.yml
+
+  gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME
+
+  envsubst < k8s/prod.yml > k8s/prod-final.yml
+
+  kubectl apply -f k8s/prod-final.yml
 fi

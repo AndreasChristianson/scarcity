@@ -12,7 +12,10 @@ spec:
     spec:
       containers:
       - name: scarcity-container
-        image: andreaschristianson/scarcity:latest
+        image: andreaschristianson/scarcity:$COMMIT
+        env:
+          - name: NODE_ENV
+            value: production
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -26,8 +29,6 @@ spec:
         - name: scarcity-port
           containerPort: 80
         resources:
-          limits:
-            cpu: "200m"
           requests:
             cpu: 0
 ---
@@ -76,7 +77,16 @@ spec:
         - containerPort: 6379
           name: redis-port
         resources:
-          limits:
-            cpu: "50m"
           requests:
             cpu: 0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+  selector:
+    app: redis

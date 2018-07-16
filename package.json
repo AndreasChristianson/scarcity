@@ -8,7 +8,8 @@
     "start": "node dist/index.js",
     "build": "babel src -d dist",
     "prestart:dev": "npm run build",
-    "start:dev": "npm start"
+    "start:dev": "npm start",
+    "dev": "nodemon --inspect --ignore dist/ --exec npm run start:dev"
   },
   "author": "Andreasn Christianson",
   "license": "ISC",
@@ -16,13 +17,13 @@
     "babel-cli": "^6.26.0",
     "babel-jest": "^23.4.0",
     "babel-preset-env": "^1.7.0",
-    "jest": "^23.4.0"
+    "jest": "^23.4.0",
+    "nodemon": "^1.18.2"
   },
   "dependencies": {
     "catbox-redis": "^4.1.0",
     "config": "^1.30.0",
     "good": "^8.1.1",
-    "good-console": "^7.1.0",
     "good-squeeze": "^5.1.0",
     "hapi": "^17.5.2"
   },
