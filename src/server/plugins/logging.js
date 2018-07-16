@@ -14,7 +14,7 @@ export default   {
                       myConsoleReporter: [{
                           module: 'good-squeeze',
                           name: 'Squeeze',
-                          args: [{ log: '*', response: '*' }]
+                          args: [{ log: '*', response: '*' ,request: '*' }]
                       }, {
                           module: 'good-console'
                       }, 'stdout']
