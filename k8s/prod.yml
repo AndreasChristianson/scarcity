@@ -25,7 +25,6 @@ spec:
           httpGet:
             path: /healthz
             port: 80
-          periodSeconds: 60
         ports:
         - name: scarcity-port
           containerPort: 80

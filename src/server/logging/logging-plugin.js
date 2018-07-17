@@ -7,7 +7,8 @@ export default {
   register: (server, options) => server.register({
     plugin: pino,
     options: {
-      prettyPrint: config.get('server.options.logging.prettyPrint')
+      prettyPrint: config.get('server.options.logging.prettyPrint'),
+      ignorePaths:['/healthz']
     }
   })
 
