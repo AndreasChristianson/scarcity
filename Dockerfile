@@ -8,5 +8,6 @@ COPY dist dist
 COPY config config
 
 ENV SCARCITY_PORT 80
+ENV DEBUG ioredis:*
 EXPOSE 80
 CMD [ "npm", "start" ]

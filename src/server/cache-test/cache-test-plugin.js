@@ -13,7 +13,7 @@ export default {
       name: 'createId',
       method: () => {
         const id = crypto.randomBytes(8).toString("hex");
-        server.log('trace', `Created new ID ${id}.`)
+        server.log('trace',`Created new ID ${id}.`)
         return id;
       },
       options: {
@@ -23,7 +23,7 @@ export default {
         }
       }
     });
-    server.log('trace', `Created server method with caching set to ${cacheDuration}ms.`)
+    server.log(['notice'],`Created server method with caching set to ${cacheDuration}ms.`)
     server.route(route);
   }
 };

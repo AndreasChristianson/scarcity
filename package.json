@@ -23,8 +23,9 @@
   "dependencies": {
     "catbox-redis": "^4.1.0",
     "config": "^1.30.0",
-    "hapi": "^17.5.2",
-    "hapi-pino": "^4.0.4"
+    "good": "^8.1.1",
+    "good-squeeze": "^5.1.0",
+    "hapi": "^17.5.2"
   },
   "babel": {
     "presets": [
