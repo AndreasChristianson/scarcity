@@ -1,4 +1,3 @@
-import good from 'good';
 import crypto from 'crypto';
 
 import route from './cache-test-route';

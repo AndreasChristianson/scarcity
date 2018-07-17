@@ -13,6 +13,9 @@ spec:
       containers:
       - name: scarcity-container
         image: andreaschristianson/scarcity:$COMMIT
+        env:
+          - name: NODE_ENV
+            value: production
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
