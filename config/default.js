@@ -5,7 +5,8 @@ module.exports = {
       logging: {
         prettyPrint: true,
         level: 'trace'
-      }
+      },
+      generateTimeout: 500
     }
   }
 };

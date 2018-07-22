@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import config from 'config';
 
 import route from './cache-test-route';
 
@@ -19,7 +20,7 @@ export default {
       options: {
         cache: {
           expiresIn: cacheDuration,
-          generateTimeout: 100
+          generateTimeout: config.get('server.options.generateTimeout')
         }
       }
     });
