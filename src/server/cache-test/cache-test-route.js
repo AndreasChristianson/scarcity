@@ -4,4 +4,4 @@ export default ({
     method: 'GET',
     path: '/cache-test',
     handler
-  });
+});
