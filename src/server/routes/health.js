@@ -3,5 +3,8 @@ export default ({
     path: '/healthz',
     handler: function (request, h) {
         return h.response('ok').code(200);
+    },
+    options:{
+      tags: ['do not log']
     }
 });

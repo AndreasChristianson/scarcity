@@ -67,7 +67,7 @@ class Flag500s extends Transform {
     });
   }
   _transform(data, enc, next) {
-    if (data.event === 'response' && data.statusCode>=500)
+    if (data.event === 'response' && data.statusCode >= 500)
       data.tags = (data.tags || []).concat([data.statusCode, 'error']);
     next(null, data);
   }
@@ -83,7 +83,9 @@ const options = {
           request: '*',
           error: '*',
           ops: '*',
-          response: '*'
+          response: {
+            exclude: ['do not log']
+          }
         }]
       }, {
         module: AddEventTags
