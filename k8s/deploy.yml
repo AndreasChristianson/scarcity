@@ -90,3 +90,48 @@ spec:
     protocol: TCP
   selector:
     app: redis
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pg
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+  selector:
+    app: pg
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: scarcity-postgres
+spec:
+  selector:
+    matchLabels:
+      app: pg-template
+  serviceName: "postgres"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pg-template
+    spec:
+      terminationGracePeriodSeconds: 20
+      containers:
+      - name: pg-container
+        image: postgres:10-alpine
+        ports:
+        - containerPort: 5432
+          name: pg-port
+        volumeMounts:
+        - mountPath: /pgdata
+          name: pg-data
+  volumeClaimTemplates:
+  - metadata:
+      name: pg-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
