@@ -8,7 +8,9 @@
     "posttest": "npm run lint",
     "lint": "eslint --fix --report-unused-disable-directives .",
     "start": "node dist/index.js",
+    "prebuild": "rm -rf dist && mkdir -p dist && cp -R public dist",
     "build": "babel src -d dist",
+    "postbuild": "webpack --mode=production",
     "prestart:dev": "npm run build",
     "start:dev": "npm start",
     "dev": "nodemon --inspect --ignore dist/ --exec npm run start:dev"
@@ -18,12 +20,16 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^23.4.0",
+    "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^5.2.0",
     "eslint-config-get-off-my-lawn": "^4.0.1",
     "jest": "^23.4.0",
-    "nodemon": "^1.18.2"
+    "nodemon": "^1.18.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "blipp": "^3.0.0",
@@ -31,7 +37,10 @@
     "config": "^1.30.0",
     "good": "^8.1.1",
     "good-squeeze": "^5.1.0",
-    "hapi": "^17.5.2"
+    "hapi": "^17.5.2",
+    "inert": "^5.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "eslintConfig": {
     "extends": "get-off-my-lawn",
@@ -53,7 +62,8 @@
           }
         }
       ],
-      "stage-2"
+      "stage-2",
+      "react"
     ]
   }
 }
