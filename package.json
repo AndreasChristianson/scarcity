@@ -26,6 +26,7 @@
     "nodemon": "^1.18.2"
   },
   "dependencies": {
+    "blipp": "^3.0.0",
     "catbox-redis": "^4.1.0",
     "config": "^1.30.0",
     "good": "^8.1.1",
