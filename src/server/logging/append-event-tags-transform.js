@@ -1,6 +1,10 @@
-import {
-    Transform
-} from 'stream';
+import {Transform} from 'stream';
+
+const eventToTagMap = {
+    response: ['silly'],
+    ops: ['silly'],
+    error: ['error']
+};
 
 export default class AddEventTags extends Transform {
     constructor() {
@@ -9,19 +13,23 @@ export default class AddEventTags extends Transform {
         });
     }
 
-    eventToTag(event) {
-        const eventToTagMap = {
-            response: ['silly'],
-            ops: ['silly']
-        };
+    transformTags(data) {
+        const {tags = [], event} = data;
+        const eventTags = eventToTagMap[event] || [];
 
-        return eventToTagMap[event] || [];
+        return [
+            ...tags,
+            ...eventTags,
+            event
+        ];
     }
 
     _transform(data, enc, next) {
+        const tags = this.transformTags(data);
+
         next(null, {
             ...data,
-            tags: (data.tags || []).concat(this.eventToTag(data.event))
+            tags
         });
     }
 }

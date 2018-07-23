@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: scarcity-redis
+spec:
+  template:
+    metadata:
+      name: redis-template
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis-container
+        image: redis:4-alpine
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+        ports:
+        - containerPort: 6379
+          name: redis-port
+        resources:
+          requests:
+            cpu: 0

@@ -1,0 +1,41 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: scarcity-postgres
+spec:
+  selector:
+    matchLabels:
+      app: pg
+  serviceName: "postgres"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pg
+    spec:
+      terminationGracePeriodSeconds: 20
+      containers:
+      - name: pg-container
+        image: postgres:10-alpine
+        env:
+        - name: POSTGRES_PASSWORD
+          value: $PGPASSWORD
+        - name: POSTGRES_USER
+          value: $PGUSER
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        ports:
+        - containerPort: 5432
+          name: pg-port
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: pg-data
+  volumeClaimTemplates:
+  - metadata:
+      name: pg-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+          cpu: 0

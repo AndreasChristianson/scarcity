@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: scarcity-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "scarcity-ip"
+spec:
+  tls:
+  - hosts:
+    - $DOMAIN
+    secretName: letsencrypt-certs
+  rules:
+  - host: $DOMAIN
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: scarcity-service
+          servicePort: 80
+      - path: /.well-known
+        backend:
+          serviceName: letsencrypt-service
+          servicePort: 80

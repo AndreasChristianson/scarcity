@@ -1,6 +1,19 @@
-import {
-    Transform
-} from 'stream';
+import {Transform} from 'stream';
+
+const npmLevelToSeverityMap = {
+    emergency: 'EMERGENCY',
+    alert: 'ALERT',
+    critical: 'CRITICAL',
+    fatal: 'CRITICAL',
+    error: 'ERROR',
+    warn: 'WARNING',
+    info: 'INFO',
+    notice: 'NOTICE',
+    verbose: 'DEBUG',
+    debug: 'DEBUG',
+    trace: 'DEBUG',
+    silly: 'DEBUG'
+};
 
 export default class AddSeverity extends Transform {
     constructor() {
@@ -10,22 +23,8 @@ export default class AddSeverity extends Transform {
     }
 
     npmLevelToSeverity(tags) {
-        const npmLevelToSeverityMap = {
-            emergency: 'EMERGENCY',
-            alert: 'ALERT',
-            critical: 'CRITICAL',
-            error: 'ERROR',
-            warn: 'WARNING',
-            info: 'INFO',
-            notice: 'NOTICE',
-            verbose: 'DEBUG',
-            debug: 'DEBUG',
-            trace: 'DEBUG',
-            silly: 'DEBUG'
-        };
-
         for (const level in npmLevelToSeverityMap) {
-            if (tags.includes(level)) {
+            if (tags.map((t) => t.toString().toLowerCase()).includes(level)) {
                 return npmLevelToSeverityMap[level];
             }
         }
@@ -34,9 +33,11 @@ export default class AddSeverity extends Transform {
     }
 
     _transform(data, enc, next) {
+        const {tags = []} = data;
+
         next(null, {
             ...data,
-            severity: this.npmLevelToSeverity(data.tags || [])
+            severity: this.npmLevelToSeverity(tags)
         });
     }
 }
