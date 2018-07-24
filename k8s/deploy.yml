@@ -113,13 +113,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: pg-template
+      app: pg
   serviceName: "postgres"
   replicas: 1
   template:
     metadata:
       labels:
-        app: pg-template
+        app: pg
     spec:
       terminationGracePeriodSeconds: 20
       containers:
