@@ -16,6 +16,8 @@ spec:
         env:
           - name: PGHOST
             value: $PGHOST
+          - name: PGPASSWORD
+            value: $PGPASSWORD
           - name: PGUSER
             value: $PGUSER
           - name: NODE_ENV
@@ -127,6 +129,8 @@ spec:
         image: postgres:10-alpine
         env:
         - name: POSTGRES_PASSWORD
+          value: $PGPASSWORD
+        - name: POSTGRES_USER
           value: $PGUSER
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
