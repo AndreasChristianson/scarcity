@@ -11,13 +11,6 @@ export default async () => {
         plugins.map((plugin) => server.register(plugin))
     );
 
-    const registrations = Object.keys(server.registrations);
-
-    server.log(
-        ['info', 'startup'],
-        [`${registrations.length} plugins registered`, registrations]
-    );
-
     routes.forEach((route) => server.route(route));
 
     return server;

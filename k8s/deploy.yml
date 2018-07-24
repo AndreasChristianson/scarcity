@@ -14,6 +14,10 @@ spec:
       - name: scarcity-container
         image: andreaschristianson/scarcity:$COMMIT
         env:
+          - name: PGHOST
+            value: $PGHOST
+          - name: PGUSER
+            value: $PGUSER
           - name: NODE_ENV
             value: production
         imagePullPolicy: Always
@@ -94,7 +98,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: pg
+  name: $PGHOST
 spec:
   ports:
   - port: 5432
@@ -121,11 +125,16 @@ spec:
       containers:
       - name: pg-container
         image: postgres:10-alpine
+        env:
+        - name: POSTGRES_PASSWORD
+          value: $PGUSER
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         ports:
         - containerPort: 5432
           name: pg-port
         volumeMounts:
-        - mountPath: /pgdata
+        - mountPath: /var/lib/postgresql/data
           name: pg-data
   volumeClaimTemplates:
   - metadata:

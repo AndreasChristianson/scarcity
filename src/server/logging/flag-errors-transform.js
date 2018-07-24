@@ -1,6 +1,6 @@
 import {Transform} from 'stream';
 
-export default class Flag500s extends Transform {
+export default class FlagErrors extends Transform {
     constructor() {
         super({
             objectMode: true
@@ -8,15 +8,14 @@ export default class Flag500s extends Transform {
     }
 
     _transform(data, enc, next) {
-        const {tags = [], statusCode = -1, event} = data;
+        const {error, tags = []} = data;
 
-        if (event === 'response' && statusCode >= 500) {
+        if (error && error.severity) {
             return next(null, {
                 ...data,
                 tags: [
                     ...tags,
-                    statusCode.toString(),
-                    'error'
+                    error.severity.toLowerCase()
                 ]
             });
         }
