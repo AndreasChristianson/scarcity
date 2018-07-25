@@ -1,9 +1,6 @@
 *
 
-!src
 !package*.json
-!jest.config.js
-!test
-!db
+!flyway
 !config
 !dist

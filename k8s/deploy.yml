@@ -10,9 +10,15 @@ spec:
       labels:
         app: scarcity
     spec:
+      initContainers:
+      - name: init-db
+        image: $REPO:flyway-$COMMIT
+        resources:
+          requests:
+            cpu: 0
       containers:
       - name: scarcity-container
-        image: andreaschristianson/scarcity:$COMMIT
+        image: $REPO:$COMMIT
         env:
           - name: PGHOST
             value: $PGHOST
