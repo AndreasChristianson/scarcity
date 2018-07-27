@@ -22,6 +22,7 @@ if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
 
 
   gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME
-
-  envsubst < k8s/deploy.yml | kubectl apply -f -
+  awk 'FNR==1 && NR!=1 {print "---"}{print}' k8s/prod/* \
+    | envsubst \
+    | kubectl apply --validate=true -f -
 fi

@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: scarcity-app
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: scarcity-template
+      labels:
+        app: scarcity
+    spec:
+      initContainers:
+      - name: init-db
+        image: $REPO:flyway-$COMMIT
+        resources:
+          requests:
+            cpu: 0
+      containers:
+      - name: scarcity-container
+        image: $REPO:$COMMIT
+        env:
+          - name: PGHOST
+            value: $PGHOST
+          - name: PGPASSWORD
+            value: $PGPASSWORD
+          - name: PGUSER
+            value: $PGUSER
+          - name: NODE_ENV
+            value: production
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+        ports:
+        - name: scarcity-port
+          containerPort: 80
+        resources:
+          requests:
+            cpu: 0
