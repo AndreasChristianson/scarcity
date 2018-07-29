@@ -7,5 +7,8 @@ export default ({
             listing: false,
             index: true
         }
+    },
+    options: {
+        tags: ['do not log']
     }
 });
