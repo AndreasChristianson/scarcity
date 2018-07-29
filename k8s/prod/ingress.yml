@@ -8,7 +8,7 @@ spec:
   tls:
   - hosts:
     - $DOMAIN
-    secretName: letsencrypt-certs
+    secretName: cert
   rules:
   - host: $DOMAIN
     http:
