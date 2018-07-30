@@ -2,9 +2,9 @@ export default [{
     method: 'GET',
     path: '/ws/test',
     config: {
-        id: 'test',
+        id: 'server/time',
         handler: (request, h) => {
-            return 'test';
+            return new Date();
         }
     }
 }];
