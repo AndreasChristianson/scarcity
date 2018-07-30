@@ -4,4 +4,4 @@ import staticRoute from './routes/static';
 export default [
     healthRoute,
     staticRoute
-];
+  ];
