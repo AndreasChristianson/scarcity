@@ -49,7 +49,9 @@
     "extends": "get-off-my-lawn",
     "rules": {
       "eslint-comments/no-unused-disable": 0,
-      "sort-keys": 0
+      "sort-keys": 0,
+      "react/no-set-state": 0,
+      "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
     }
   },
   "eslintIgnore": [

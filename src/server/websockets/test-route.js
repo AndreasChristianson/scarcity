@@ -3,8 +3,6 @@ export default [{
     path: '/ws/test',
     config: {
         id: 'server/time',
-        handler: (request, h) => {
-            return new Date();
-        }
+        handler: (request, h) => new Date()
     }
 }];

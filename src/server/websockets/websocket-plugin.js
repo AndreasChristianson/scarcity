@@ -1,5 +1,4 @@
-const nes = require('nes');
-
+import nes from 'nes';
 import route from './test-route';
 
 export default {
@@ -9,8 +8,9 @@ export default {
         server.route(route);
         await server.register(nes);
         server.subscription('/server/time');
-        server.events.on('start',()=>{
-          setInterval(()=> server.publish('/server/time', new Date()), 500);
+        server.events.on('start', () => {
+            setInterval(() => server.publish('/server/time', new Date()), 500);
+            setInterval(() => server.broadcast(new Date()), 15000);
         });
     }
 };
