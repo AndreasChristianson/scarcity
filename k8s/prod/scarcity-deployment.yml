@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 metadata:
   name: scarcity-app
 spec:
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       name: scarcity-template
@@ -13,6 +13,13 @@ spec:
       initContainers:
       - name: init-db
         image: $REPO:flyway-$COMMIT
+        env:
+          - name: FLYWAY_URL
+            value: jdbc:postgresql://$PGHOST:5432/$PGUSER
+          - name: FLYWAY_PASSWORD
+            value: $PGPASSWORD
+          - name: FLYWAY_USER
+            value: $PGUSER
         resources:
           requests:
             cpu: 0
@@ -28,6 +35,10 @@ spec:
             value: $PGUSER
           - name: NODE_ENV
             value: production
+          - name: REDIS_HOST
+            value: $REDIS_HOST
+          - name: IRON_SECRET
+            value: $IRON_SECRET
         imagePullPolicy: Always
         readinessProbe:
           httpGet:

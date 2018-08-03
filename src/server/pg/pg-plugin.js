@@ -1,4 +1,3 @@
-
 import {Pool} from 'pg';
 
 import route from './pg-route';

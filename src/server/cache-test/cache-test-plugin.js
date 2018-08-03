@@ -1,6 +1,8 @@
 import crypto from 'crypto';
 import config from 'config';
 
+import logger from '../../logger';
+
 import route from './cache-test-route';
 
 const seconds = 1000;
@@ -15,7 +17,7 @@ export default {
             method: () => {
                 const id = crypto.randomBytes(8).toString('hex');
 
-                server.log('trace', `Created new ID ${id}.`);
+                logger.debug(`Created new ID ${id}.`);
 
                 return id;
             },
@@ -26,7 +28,6 @@ export default {
                 }
             }
         });
-        server.log(['notice'], `Created server method with caching set to ${cacheDuration}ms.`);
         server.route(route);
     }
 };

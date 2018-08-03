@@ -9,6 +9,7 @@ export default ({
         }
     },
     options: {
-        tags: ['do not log']
+        tags: ['do not log'],
+        auth: false
     }
 });

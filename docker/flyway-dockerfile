@@ -2,13 +2,4 @@ FROM boxfuse/flyway:5-alpine
 
 COPY flyway/migrations /flyway/sql
 
-ARG PGHOST
-ARG PGUSER
-ARG PGPASSWORD
-ARG PGDB
-
-ENV FLYWAY_URL jdbc:postgresql://$PGHOST:5432/$PGDB
-ENV FLYWAY_USER $PGUSER
-ENV FLYWAY_PASSWORD $PGPASSWORD
-
 CMD ["migrate"]

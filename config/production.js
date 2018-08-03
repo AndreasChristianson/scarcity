@@ -1,14 +1,7 @@
 module.exports = {
     server: {
-        options: {
-            cache: [{
-                engine: require('catbox-redis'),
-                host: 'redis'
-            }],
-            logging: {
-                prettyPrint: false,
-                level: 'trace'
-            }
+        auth: {
+            cookiePassword: process.env['IRON_SECRET']
         }
     }
 };

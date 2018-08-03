@@ -1,0 +1,57 @@
+version: '3'
+services:
+  scarcity:
+    build:
+      context: .
+      dockerfile: docker/scarcity-dockerfile
+    depends_on:
+      - flyway
+      - pg
+      - redis
+    environment:
+      PGHOST: pg
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      NODE_ENV: development
+      REDIS_HOST: redis
+  flyway:
+    build:
+      context: .
+      dockerfile: docker/flyway-dockerfile
+    environment:
+      FLYWAY_URL: jdbc:postgresql://pg:5432/postgres
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres
+    depends_on:
+      - pg
+    restart: on-failure
+  pg:
+    image: postgres:10-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432
+    logging:
+      driver: none
+  redis:
+    image: redis:4-alpine
+    ports:
+      - 6379:6379
+  lb:
+    image: dockercloud/haproxy
+    ports:
+      - 80:80
+    environment:
+      MODE: tcp
+    logging:
+      driver: none
+    links:
+      - scarcity
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

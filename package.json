@@ -1,19 +1,26 @@
 {
   "name": "scarcity",
   "version": "1.0.0",
-  "description": "",
+  "description": "zomg",
   "main": "src/index.js",
+  "repository": "https://github.com/AndreasChristianson/scarcity",
   "scripts": {
+    "start": "node dist/index.js",
+    "build": "npm run clean && npm run babel && npm run webpack",
+    "clean": "rm -rf dist && mkdir -p dist && cp -R public dist",
+    "babel": "babel src -d dist",
+    "webpack": "webpack --mode=production",
+    "webpack:dev": "webpack --mode=development",
+    "prestart:dev": "npm run clean && npm run babel && npm run webpack:dev",
+    "start:dev": "npm start",
+    "preheavy": "npm run prestart:dev",
+    "heavy": "docker-compose up --scale scarcity=3 --build --force-recreate --renew-anon-volumes",
+    "dev:heavy": "nodemon --ignore dist/ --exec npm run heavy",
+    "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --build --force-recreate --renew-anon-volumes",
+    "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --inspect --ignore dist/ --exec npm run start:dev",
     "test": "jest",
     "posttest": "npm run lint",
-    "lint": "eslint --fix --report-unused-disable-directives .",
-    "start": "node dist/index.js",
-    "prebuild": "rm -rf dist && mkdir -p dist && cp -R public dist",
-    "build": "babel src -d dist",
-    "postbuild": "webpack --mode=production",
-    "prestart:dev": "npm run build",
-    "start:dev": "npm start",
-    "dev": "nodemon --inspect --ignore dist/ --exec npm run start:dev"
+    "lint": "eslint --fix --report-unused-disable-directives ."
   },
   "author": "Andreasn Christianson",
   "license": "ISC",
@@ -32,18 +39,21 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "catbox-redis": "^4.1.0",
     "config": "^1.30.0",
     "good": "^8.1.1",
-    "good-errors": "^3.0.0",
     "good-squeeze": "^5.1.0",
     "hapi": "^17.5.2",
+    "hapi-auth-cookie": "^9.0.0",
     "inert": "^5.1.0",
+    "joi": "^13.5.2",
     "multines": "^1.0.0",
     "nes": "^9.0.1",
     "pg": "^7.4.3",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "winston": "^3.0.0"
   },
   "eslintConfig": {
     "extends": "get-off-my-lawn",
@@ -51,7 +61,14 @@
       "eslint-comments/no-unused-disable": 0,
       "sort-keys": 0,
       "react/no-set-state": 0,
-      "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "none",
+          "ignoreRestSiblings": false
+        }
+      ]
     }
   },
   "eslintIgnore": [
