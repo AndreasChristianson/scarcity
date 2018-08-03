@@ -14,18 +14,13 @@ export default {
     register: async (server) => {
         await server.register(hapiAuthCookie);
 
-        const cache = server.cache({
-            segment: 'sessions',
-            expiresIn: config.get('server.auth.sessionTimeout')
-        });
-
-        server.expose('sessionCache', cache);
-
         server.auth.strategy('session', 'cookie', {
             cookie: config.get('server.auth.cookieName'),
             password: config.get('server.auth.cookiePassword'),
             isSecure: config.get('server.auth.useSecureCookies'),
-            validateFunc: authenticate
+            isHttpOnly: false,
+            validateFunc: authenticate,
+            clearInvalid: true
         });
 
         server.auth.default('session');

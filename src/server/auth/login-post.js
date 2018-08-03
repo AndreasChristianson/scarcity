@@ -3,8 +3,11 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import Joi from 'joi';
 
+const threeDays = 3 * 24 * 60 * 60 * 1000;
+
 // a default hash allows us to run bcrypt.compare even when the user is not found; this prevents timing attacks.
-const defaultHash = '$2a$11$zNdLMT5CPVwXVP0THh.lXunzQNmJDiY0ynecPZs2EPQksnBvvNIWy';
+const defaultHash =
+  '$2a$11$zNdLMT5CPVwXVP0THh.lXunzQNmJDiY0ynecPZs2EPQksnBvvNIWy';
 
 const validatePassword = async (user, password) => {
     const hash = user ? user.hash : defaultHash;
@@ -30,17 +33,15 @@ const handler = async (request, h) => {
             id: user.id,
             name: user.name
         },
-        scope: user.scope
+        scope: user.scope,
+        exp: Date.now().valueOf() + threeDays
     };
-    const sid = crypto.randomBytes(8).toString('hex');
 
-    await request.server.plugins.auth.sessionCache.set(sid, credentials, 0);
-
-    request.cookieAuth.set({sid});
+    request.cookieAuth.set(credentials);
     const message = 'Successfully logged in.';
 
     return h.response({
-        ...credentials,
+        user: credentials.user,
         message
     });
 };

@@ -8,7 +8,11 @@ export default {
     register: async (server) => {
         server.route(route);
         await server.register(nes);
-        server.subscription('/server/time');
+        server.subscription('/server/time',{
+          auth:{
+            scope:['can-listen-to-time']
+          }
+        });
         server.events.on('start', () => {
             setInterval(() => server.publish('/server/time', new Date()), 500);
             setInterval(() => server.broadcast(new Date()), 15000);
