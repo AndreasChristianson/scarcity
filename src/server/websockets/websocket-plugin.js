@@ -1,4 +1,5 @@
 import nes from 'nes';
+
 import route from './test-route';
 
 export default {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "repository": "https://github.com/AndreasChristianson/scarcity",
   "scripts": {
     "test": "jest",
     "posttest": "npm run lint",
@@ -32,13 +33,16 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "catbox-redis": "^4.1.0",
     "config": "^1.30.0",
     "good": "^8.1.1",
     "good-errors": "^3.0.0",
     "good-squeeze": "^5.1.0",
     "hapi": "^17.5.2",
+    "hapi-auth-cookie": "^9.0.0",
     "inert": "^5.1.0",
+    "joi": "^13.5.2",
     "multines": "^1.0.0",
     "nes": "^9.0.1",
     "pg": "^7.4.3",
@@ -51,7 +55,14 @@
       "eslint-comments/no-unused-disable": 0,
       "sort-keys": 0,
       "react/no-set-state": 0,
-      "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "none",
+          "ignoreRestSiblings": false
+        }
+      ]
     }
   },
   "eslintIgnore": [
