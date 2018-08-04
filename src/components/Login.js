@@ -20,7 +20,10 @@ export default class Login extends React.Component {
         const {username, password} = this.state;
         const response = await fetch('/login', {
             method: 'POST',
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({
+                username,
+                password
+            }),
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,20 +38,24 @@ export default class Login extends React.Component {
         return (
             <div>
                 <div>
-                    <label htmlFor="username">User Name:</label>
-                    <input
-                        name="username"
-                        onChange={this.handleChange}
-                        type="text"
-                    />
+                    <label htmlFor="username">
+                        {'User Name:'}
+                        <input
+                            name="username"
+                            onChange={this.handleChange}
+                            type="text"
+                        />
+                    </label>
                 </div>
                 <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        name="password"
-                        onChange={this.handleChange}
-                        type="password"
-                    />
+                    <label htmlFor="password">
+                        {'Password:'}
+                        <input
+                            name="password"
+                            onChange={this.handleChange}
+                            type="password"
+                        />
+                    </label>
                 </div>
                 <div>
                     <input

@@ -3,9 +3,11 @@ import React from 'react';
 import ServerTime from './ServerTime';
 import Login from './Login';
 
-export default (props) => (
+const Layout = (props) => (
     <div className="box">
         <ServerTime />
         <Login />
     </div>
 );
+
+export default Layout;

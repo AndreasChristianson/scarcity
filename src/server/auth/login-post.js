@@ -1,5 +1,3 @@
-import crypto from 'crypto';
-
 import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
