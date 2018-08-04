@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
 const threeDays = 3 * 24 * 60 * 60 * 1000;

@@ -13,6 +13,13 @@ spec:
       initContainers:
       - name: init-db
         image: $REPO:flyway-$COMMIT
+        env:
+          - name: FLYWAY_URL
+            value: jdbc:postgresql://$PGHOST:5432/$PGUSER
+          - name: FLYWAY_PASSWORD
+            value: $PGPASSWORD
+          - name: FLYWAY_USER
+            value: $PGUSER
         resources:
           requests:
             cpu: 0
@@ -28,6 +35,8 @@ spec:
             value: $PGUSER
           - name: NODE_ENV
             value: production
+          - name: REDIS_HOST
+            value: $REDIS_HOST
         imagePullPolicy: Always
         readinessProbe:
           httpGet:

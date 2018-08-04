@@ -3,7 +3,7 @@ module.exports = {
         options: {
             cache: [{
                 engine: require('catbox-redis'),
-                host: 'redis'
+                host: process.env[REDIS_HOST]
             }],
             logging: {
                 prettyPrint: false,

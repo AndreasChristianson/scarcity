@@ -1,0 +1,33 @@
+version: '3'
+services:
+  scarcity:
+    build:
+      context: .
+      dockerfile: docker/scarcity-dockerfile
+    depends_on:
+      - flyway
+    ports:
+      - "3080:80"
+    environment:
+      PGHOST: pg
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      NODE_ENV: development
+  flyway:
+    build:
+      context: .
+      dockerfile: docker/flyway-dockerfile
+    environment:
+      FLYWAY_URL: jdbc:postgresql://pg:5432/postgres
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres
+    depends_on:
+      - pg
+    restart: on-failure
+  pg:
+    image: postgres:10-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
