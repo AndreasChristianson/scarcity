@@ -1,6 +1,12 @@
 module.exports = {
     server: {
         options: {
+            cache: [
+                {
+                    engine: require('catbox-redis'),
+                    host: process.env['REDIS_HOST']
+                }
+            ],
             port: process.env['SCARCITY_PORT'] || 8080,
             logging: {
                 prettyPrint: true,

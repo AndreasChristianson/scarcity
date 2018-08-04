@@ -6,13 +6,14 @@ services:
       dockerfile: docker/scarcity-dockerfile
     depends_on:
       - flyway
-    ports:
-      - "3080:80"
+      - pg
+      - redis
     environment:
       PGHOST: pg
       PGUSER: postgres
       PGPASSWORD: postgres
       NODE_ENV: development
+      REDIS_HOST: redis
   flyway:
     build:
       context: .
@@ -26,8 +27,18 @@ services:
     restart: on-failure
   pg:
     image: postgres:10-alpine
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+  redis:
+    image: redis:4-alpine
+  lb:
+    image: dockercloud/haproxy
+    ports:
+      - 80:80
+    environment:
+      MODE: tcp
+    links:
+      - scarcity
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
