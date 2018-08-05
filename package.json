@@ -49,7 +49,8 @@
     "nes": "^9.0.1",
     "pg": "^7.4.3",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "winston": "^3.0.0"
   },
   "eslintConfig": {
     "extends": "get-off-my-lawn",

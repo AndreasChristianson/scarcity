@@ -1,14 +1,20 @@
-import config from 'config';
+import logger from '../../logger';
 
 export default {
     method: 'GET',
     path: '/logout',
     handler: (request, h) => {
-        request.server.plugins.auth.sessionCache.drop(
-            request.state[config.get('server.auth.cookieName')].sid
-        );
+        const {auth: {credentials: {user}}} = request;
+
         request.cookieAuth.clear();
 
-        return h.response();
+        logger.debug('Cleared auth cookie', {user});
+
+        const message = 'Logged out';
+
+        return h.response({
+            message,
+            user
+        });
     }
 };

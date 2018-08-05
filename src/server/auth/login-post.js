@@ -23,6 +23,8 @@ const handler = async (request, h) => {
     if (!isValid) {
         const message = 'Invalid username or password.';
 
+        request.log('notice', `Invalid login attempt for user: [${username}]`);
+
         return h.response({message}).code(403);
     }
 
@@ -36,6 +38,7 @@ const handler = async (request, h) => {
     };
 
     request.cookieAuth.set(credentials);
+    request.log('silly', `Logged in [${user.name} (${user.id})]`);
     const message = 'Successfully logged in.';
 
     return h.response({

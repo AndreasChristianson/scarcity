@@ -8,11 +8,10 @@ module.exports = {
                 }
             ],
             port: process.env['SCARCITY_PORT'] || 8080,
-            logging: {
-                prettyPrint: true,
-                level: 'trace'
-            },
             generateTimeout: 500
+        },
+        logging: {
+            level: 'debug'
         },
         auth: {
             sessionTimeout: 24 * 60 * 60 * 1000,

@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 metadata:
   name: scarcity-app
 spec:
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       name: scarcity-template

@@ -30,6 +30,13 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: none
   redis:
     image: redis:4-alpine
   lb:
@@ -38,6 +45,8 @@ services:
       - 80:80
     environment:
       MODE: tcp
+    logging:
+      driver: none
     links:
       - scarcity
     volumes:

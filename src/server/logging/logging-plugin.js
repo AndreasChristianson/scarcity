@@ -1,13 +1,15 @@
 import good from 'good';
 
-import AddSeverity from './append-severity-transform';
+import logger from '../../logger';
+
 import AddEventTags from './append-event-tags-transform';
 import Flag500s from './flag-500s-transform';
 import FlagErrors from './flag-errors-transform';
+import goodToWinston from './good-to-winston';
 
 const options = {
     reporters: {
-        stdout: [{
+        winston: [{
             module: 'good-squeeze',
             name: 'Squeeze',
             args: [{
@@ -19,9 +21,6 @@ const options = {
                     exclude: ['do not log']
                 }
             }]
-        },
-        {
-            module: 'good-errors'
         }, {
             module: AddEventTags
         }, {
@@ -29,13 +28,11 @@ const options = {
         }, {
             module: FlagErrors
         }, {
-            module: AddSeverity
-        }, {
-            module: 'good-squeeze',
-            name: 'SafeJson'
-        },
-        'stdout'
-        ]
+            module: goodToWinston,
+            args: [
+                logger
+            ]
+        }]
     },
     ops: {
         interval: 5 * 60 * 1000
@@ -51,15 +48,12 @@ export default {
             options
         });
         server.events.on('start', () => {
-            const tags = ['info', 'startup'];
             const registrations = Object.keys(server.registrations);
 
-            server.log(tags,
-                [`${registrations.length} plugins registered`, registrations]
-            );
-            const table = server.table().map(({path, method}) => `${method}:${path}`);
+            logger.debug(`${registrations.length} plugins registered`, {registrations});
+            const routes = server.table().map(({path, method}) => `${method}:${path}`);
 
-            server.log(tags, table);
+            logger.debug(`${routes.length} routes registered`, {routes});
         });
     }
 };

@@ -1,6 +1,6 @@
 import serverGenerator from '../../src/server/server-generator';
 
-describe('serger generator', () => {
+describe('server generator', () => {
     let server;
 
     beforeEach(async () => {
