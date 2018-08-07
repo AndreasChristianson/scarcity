@@ -1,17 +1,17 @@
 import config from 'config';
 
+import engine from 'catbox-redis';
+
 export default () => {
     const port = config.get('server.options.port');
-    const options = {
+    const cache = [{
+        host: config.get('redis.host'),
+
+        engine
+    }];
+
+    return {
         port,
-        debug: {
-            log: ['error']
-        }
+        cache
     };
-
-    if (config.has('server.options.cache')) {
-        options.cache = config.get('server.options.cache');
-    }
-
-    return options;
 };

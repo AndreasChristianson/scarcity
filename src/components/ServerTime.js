@@ -8,6 +8,7 @@ export default class ServerTime extends React.Component {
             route: 'not-yet-fetched',
             subscription: 'not-yet-fetched',
             broadcast: 'not-yet-fetched',
+            id: 'none',
             client: new NesClient(`ws://${window.location.host}`)
         };
         this.state.client.onUpdate = (update) =>
@@ -37,6 +38,11 @@ export default class ServerTime extends React.Component {
                 subscription: update
             });
         });
+        this.state.client.subscribe('/item/myid/info', (update, flags) => {
+            this.setState({
+                id: update
+            });
+        });
     }
 
     async fetchRouteData() {
@@ -58,6 +64,7 @@ export default class ServerTime extends React.Component {
                 <li>{'Time via route: '}{this.state.route}</li>
                 <li>{'Time via subscription: '}{this.state.subscription}</li>
                 <li>{'Time via broadcast: '}{this.state.broadcast}</li>
+                <li>{'Listening to `/item/{id}/info` for itemId `myid`: '}{this.state.id}</li>
             </ul>
         );
     }

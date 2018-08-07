@@ -18,7 +18,7 @@
     "dev:heavy": "nodemon --ignore dist/ --exec npm run heavy",
     "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --build --force-recreate --renew-anon-volumes",
     "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --inspect --ignore dist/ --exec npm run start:dev",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "posttest": "npm run lint",
     "lint": "eslint --fix --report-unused-disable-directives ."
   },

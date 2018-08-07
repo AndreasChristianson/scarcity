@@ -1,12 +1,6 @@
 module.exports = {
     server: {
         options: {
-            cache: [
-                {
-                    engine: require('catbox-redis'),
-                    host: process.env['REDIS_HOST']
-                }
-            ],
             port: process.env['SCARCITY_PORT'] || 8080,
             generateTimeout: 500
         },
@@ -20,5 +14,8 @@ module.exports = {
             useSecureCookies: false,
             cookieName: 'sid'
         }
+    },
+    redis: {
+        host: process.env['REDIS_HOST'] || 'localhost'
     }
 };

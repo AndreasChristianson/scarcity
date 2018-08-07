@@ -7,6 +7,8 @@ describe('server generator', () => {
         server = await serverGenerator();
     });
 
+    afterEach(() => server.stop());
+
     test('should load the logging plugin', () => {
         expect(server.registrations['scarcity-logging'].version).toBe('1.0.0');
     });
