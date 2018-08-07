@@ -28,7 +28,6 @@ export default {
                 }
             }
         });
-        logger.notice(`Created server method with caching set to ${cacheDuration}ms.`);
         server.route(route);
     }
 };

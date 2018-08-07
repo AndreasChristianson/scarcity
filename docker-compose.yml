@@ -35,10 +35,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 5432:5432
     logging:
       driver: none
   redis:
     image: redis:4-alpine
+    ports:
+      - 6379:6379
   lb:
     image: dockercloud/haproxy
     ports:

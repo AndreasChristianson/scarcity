@@ -70,7 +70,7 @@ export default class GoodToWinston extends Stream.Writable {
         }
     }
 
-    getLogMethod(tags) {
+    getLogMethod(tags = []) {
         const logger = this.logger;
         const tagToLogmethod = {
             emergency: logger.emergency,

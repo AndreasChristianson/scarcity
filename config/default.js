@@ -11,7 +11,8 @@ module.exports = {
             generateTimeout: 500
         },
         logging: {
-            level: 'debug'
+            level: 'debug',
+            opsInterval: 60 * 1000
         },
         auth: {
             sessionTimeout: 24 * 60 * 60 * 1000,

@@ -1,3 +1,5 @@
+import config from 'config';
+
 import good from 'good';
 
 import logger from '../../logger';
@@ -35,7 +37,7 @@ const options = {
         }]
     },
     ops: {
-        interval: 5 * 60 * 1000
+        interval: config.get('server.logging.opsInterval')
     }
 };
 
@@ -50,10 +52,13 @@ export default {
         server.events.on('start', () => {
             const registrations = Object.keys(server.registrations);
 
-            logger.debug(`${registrations.length} plugins registered`, {registrations});
+            logger.debug(`Plugins registered: ${registrations.length}`, {registrations});
             const routes = server.table().map(({path, method}) => `${method}:${path}`);
 
-            logger.debug(`${routes.length} routes registered`, {routes});
+            logger.debug(`Routes registered: ${routes.length}`, {routes});
+            const methods = Object.keys(server.methods);
+
+            logger.debug(`Methods registered: ${methods.length}`, {methods});
         });
     }
 };
