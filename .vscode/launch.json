@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "diagnosticLogging": true,
+    "configurations": [
+        {
+            "timeout": 30000,
+            "type": "node",
+            "request": "launch",
+            "name": "npm run dev",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "dev"
+            ],
+            "port": 9229,
+            "outputCapture": "std",
+            "protocol": "auto",
+            "sourceMaps": true,
+            "restart": true
+        }
+    ]
+}

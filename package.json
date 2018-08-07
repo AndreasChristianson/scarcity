@@ -12,12 +12,12 @@
     "webpack": "webpack --mode=production",
     "webpack:dev": "webpack --mode=development",
     "prestart:dev": "npm run clean && npm run babel && npm run webpack:dev",
-    "start:dev": "npm start",
+    "start:dev": "node --inspect dist/index.js",
     "preheavy": "npm run prestart:dev",
     "heavy": "docker-compose up --scale scarcity=3 --build --force-recreate --renew-anon-volumes",
     "dev:heavy": "nodemon --ignore dist/ --exec npm run heavy",
-    "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --build --force-recreate --renew-anon-volumes",
-    "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --inspect --ignore dist/ --exec npm run start:dev",
+    "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --force-recreate --renew-anon-volumes",
+    "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --ignore dist/ --exec npm run start:dev",
     "test": "jest --detectOpenHandles",
     "posttest": "npm run lint",
     "lint": "eslint --fix --report-unused-disable-directives ."
@@ -86,6 +86,8 @@
       ],
       "stage-2",
       "react"
-    ]
+    ],
+    "retainLines": true,
+    "sourceMaps": "inline"
   }
 }
