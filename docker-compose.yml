@@ -37,8 +37,6 @@ services:
       retries: 5
     ports:
       - 5432:5432
-    logging:
-      driver: none
   redis:
     image: redis:4-alpine
     ports:
@@ -49,8 +47,6 @@ services:
       - 80:80
     environment:
       MODE: tcp
-    logging:
-      driver: none
     links:
       - scarcity
     volumes:
