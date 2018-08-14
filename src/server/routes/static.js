@@ -1,4 +1,4 @@
-export default ({
+export default [{
     method: 'GET',
     path: '/{path*}',
     handler: {
@@ -12,4 +12,14 @@ export default ({
         tags: ['do not log'],
         auth: false
     }
-});
+}, {
+    method: 'GET',
+    path: '/page/{path*}',
+    handler: {
+        file: () => './dist/public/index.html'
+    },
+    options: {
+        tags: ['do not log'],
+        auth: false
+    }
+}];

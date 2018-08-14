@@ -5,10 +5,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "scarcity-ip"
 spec:
-  tls:
-  - hosts:
-    - $DOMAIN
-    secretName: cert
   rules:
   - host: $DOMAIN
     http:
@@ -16,8 +12,4 @@ spec:
       - path: /
         backend:
           serviceName: scarcity-service
-          servicePort: 80
-      - path: /.well-known
-        backend:
-          serviceName: letsencrypt-service
           servicePort: 80

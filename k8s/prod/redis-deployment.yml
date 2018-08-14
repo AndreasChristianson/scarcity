@@ -29,4 +29,4 @@ spec:
           name: redis-port
         resources:
           requests:
-            cpu: 0
+            cpu: 200

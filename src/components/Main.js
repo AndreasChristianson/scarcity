@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
 
-import Layout from './Layout';
+import UserContextManager from './account/UserContext';
+import Layout from './layout/Layout';
 
 ReactDOM.render(
-    <Layout />,
+    <BrowserRouter>
+        <UserContextManager>
+            <Layout />
+        </UserContextManager>
+    </BrowserRouter>,
     document.getElementById('app')
 );

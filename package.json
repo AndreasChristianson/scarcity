@@ -15,9 +15,9 @@
     "start:dev": "node --inspect dist/index.js",
     "preheavy": "npm run prestart:dev",
     "heavy": "docker-compose up --scale scarcity=3 --build --force-recreate --renew-anon-volumes",
-    "dev:heavy": "nodemon --ignore dist/ --exec npm run heavy",
-    "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --force-recreate --renew-anon-volumes",
-    "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --ignore dist/ --exec npm run start:dev",
+    "dev:heavy": "nodemon --exec npm run heavy",
+    "predev": "docker-compose up -d --scale scarcity=0 --scale lb=0 --build --force-recreate --renew-anon-volumes",
+    "dev": "PGUSER=postgres PGPASSWORD=postgres PGDATABASE=postgres nodemon --exec npm run start:dev",
     "test": "jest --detectOpenHandles",
     "posttest": "npm run lint",
     "lint": "eslint --fix --report-unused-disable-directives ."
@@ -51,8 +51,13 @@
     "multines": "^1.0.0",
     "nes": "^9.0.1",
     "pg": "^7.4.3",
+    "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "reactstrap": "^6.3.1",
+    "validator": "^10.5.0",
     "winston": "^3.0.0"
   },
   "eslintConfig": {
@@ -60,6 +65,7 @@
     "rules": {
       "eslint-comments/no-unused-disable": 0,
       "sort-keys": 0,
+      "react/sort-prop-types": 0,
       "react/no-set-state": 0,
       "no-unused-vars": [
         "error",
@@ -89,5 +95,11 @@
     ],
     "retainLines": true,
     "sourceMaps": "inline"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "dist/"
+    ],
+    "ext": "js css html json sql"
   }
 }

@@ -42,7 +42,7 @@ export default {
                 scope: ['can-listen-to-time']
             }
         });
-        
+
         server.events.on('start', () => {
             setInterval(() => server.publish('/server/time', new Date()), 500);
             setInterval(() => server.broadcast(new Date()), 15000);

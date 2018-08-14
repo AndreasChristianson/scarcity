@@ -17,7 +17,10 @@ const validatePassword = async (user, password) => {
 const handler = async (request, h) => {
     const {username, password} = request.payload;
 
+    request.log('silly', `Looking up user: ${username}`);
     const user = await request.server.methods.getUser(username);
+
+    request.log('silly', ['User from db.', user]);
     const isValid = await validatePassword(user, password);
 
     if (!isValid) {
@@ -31,7 +34,10 @@ const handler = async (request, h) => {
     const credentials = {
         user: {
             id: user.id,
-            name: user.name
+            name: user.name,
+            email: user.email,
+            created: user.stamp,
+            sessionIssued: new Date().toISOString()
         },
         scope: user.scope,
         exp: Date.now().valueOf() + threeDays
@@ -49,7 +55,7 @@ const handler = async (request, h) => {
 
 export default {
     method: 'POST',
-    path: '/login',
+    path: '/api/auth/login',
     options: {
         auth: {mode: 'try'},
         validate: {

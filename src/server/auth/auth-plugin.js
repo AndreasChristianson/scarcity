@@ -3,10 +3,12 @@ import config from 'config';
 import hapiAuthCookie from 'hapi-auth-cookie';
 
 import authenticate from './authenticate-request';
-import logout from './logout-route';
-import loginGet from './login-get';
-import loginPost from './login-post';
-import lookupUser from './lookup-user';
+import logout from './logout';
+import login from './login';
+import user from './user';
+import lookupUser from './queries/lookup-user';
+import createUserMethod from './queries/create-user';
+import createUserRoute from './create-user';
 
 export default {
     name: 'auth',
@@ -24,16 +26,15 @@ export default {
         });
 
         server.auth.default('session');
-        server.route([logout, loginGet, loginPost]);
+        server.route([logout, login, user, createUserRoute]);
 
         server.method({
             name: 'getUser',
-            method: lookupUser,
-            options: {
-                cache: {
-                    generateTimeout: config.get('server.options.generateTimeout')
-                }
-            }
+            method: lookupUser(server)
+        });
+        server.method({
+            name: 'createUser',
+            method: createUserMethod(server)
         });
     }
 };

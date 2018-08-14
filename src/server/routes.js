@@ -1,7 +1,7 @@
 import healthRoute from './routes/health';
-import staticRoute from './routes/static';
+import staticRoutes from './routes/static';
 
 export default [
     healthRoute,
-    staticRoute
+    ...staticRoutes
 ];

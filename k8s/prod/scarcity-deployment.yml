@@ -53,4 +53,4 @@ spec:
           containerPort: 80
         resources:
           requests:
-            cpu: 0
+            cpu: 100
