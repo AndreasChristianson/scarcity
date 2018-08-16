@@ -9,7 +9,7 @@ spec:
   - host: $DOMAIN
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: scarcity-service
           servicePort: 80

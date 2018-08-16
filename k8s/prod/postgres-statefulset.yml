@@ -38,4 +38,4 @@ spec:
       resources:
         requests:
           storage: 1Gi
-          cpu: 400
+          cpu: 0
