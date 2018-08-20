@@ -1,6 +1,8 @@
-export default (server) => async (user) => {
+import pg from '../../pg/pg';
+
+export default async (user) => {
     try {
-        await server.pg.query(
+        await pg.query(
             'insert into scarcity_users(name, email, hash) VALUES($1, $2, $3)',
             [user.name, user.email, user.hash]
         );

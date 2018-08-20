@@ -8,7 +8,9 @@ export default {
 
         return h.response({
             user,
-            message: credentials ? 'Currently logged in' : 'Not logged in'
+            message: credentials ?
+                'Currently logged in' :
+                'Not logged in'
         });
     },
     options: {

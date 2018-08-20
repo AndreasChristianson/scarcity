@@ -12,7 +12,8 @@ module.exports = {
             sessionTimeout: 24 * 60 * 60 * 1000,
             cookiePassword: 'this-password-is-*NOT*-random!!!',
             useSecureCookies: false,
-            cookieName: 'sid'
+            cookieName: 'sid',
+            lockedAccountCacheTime: 5 * 60 * 1000
         }
     },
     redis: {

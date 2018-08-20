@@ -3,12 +3,8 @@ import config from 'config';
 import hapiAuthCookie from 'hapi-auth-cookie';
 
 import authenticate from './authenticate-request';
-import logout from './logout';
-import login from './login';
-import user from './user';
-import lookupUser from './queries/lookup-user';
-import createUserMethod from './queries/create-user';
-import createUserRoute from './create-user';
+import routes from './routes/routes';
+import getUserById from './methods/get-user-by-id';
 
 export default {
     name: 'auth',
@@ -24,17 +20,8 @@ export default {
             validateFunc: authenticate,
             clearInvalid: true
         });
-
         server.auth.default('session');
-        server.route([logout, login, user, createUserRoute]);
-
-        server.method({
-            name: 'getUser',
-            method: lookupUser(server)
-        });
-        server.method({
-            name: 'createUser',
-            method: createUserMethod(server)
-        });
+        server.route(routes);
+        server.method(getUserById);
     }
 };

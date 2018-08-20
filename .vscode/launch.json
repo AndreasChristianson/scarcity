@@ -7,11 +7,6 @@
             "type": "node",
             "request": "launch",
             "name": "npm run dev",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run-script",
-                "dev"
-            ],
             "port": 9229,
             "outputCapture": "std",
             "protocol": "auto",

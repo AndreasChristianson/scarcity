@@ -1,12 +1,15 @@
 import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
-const handler = async (request, h) => {
-    const {password, ...user} = request.payload;
+import createUser from '../methods/create-user';
 
-    user.hash = await bcrypt.hash(password, 11);
+const handler = async ({payload: {password, ...user}}, h) => {
+    const hash = await bcrypt.hash(password, 11);
 
-    const {message, ok, conflict} = await request.server.methods.createUser(user);
+    const {message, ok, conflict} = await createUser({
+        hash,
+        ...user
+    });
 
     if (ok) {
         return h.response({message}).code(201);
