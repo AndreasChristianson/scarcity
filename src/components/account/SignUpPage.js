@@ -1,9 +1,8 @@
 import React from 'react';
-import {Alert} from 'reactstrap';
 
 import Page from '../shared/Page';
 import createUser from '../services/createUser';
-import Processing from '../shared/Processing';
+import StatusAlert from '../shared/StatusAlert';
 
 import SignUpForm from './SignUpForm';
 
@@ -18,6 +17,7 @@ class SignUpPage extends React.Component {
         this.setState({
             status: 'processing'
         });
+
         const status = await createUser(user);
 
         this.setState({
@@ -25,31 +25,17 @@ class SignUpPage extends React.Component {
         });
     }
 
-    getAlert = () => {
-        if (!this.state.status) {
-            return null;
-        }
-
-        if (this.state.status === 'processing') {
-            return <Processing />;
-        }
-
-        const color = this.state.status.ok ?
-            'success' :
-            'danger';
-
-        return (
-            <Alert color={color}>
-                {this.state.status.message}
-            </Alert>
-        );
-    }
-
     render = () => (
         <Page>
             <h1>{'Sign Up'}</h1>
             <SignUpForm createUser={this.createUser} />
-            {this.getAlert()}
+            <StatusAlert
+                status={this.state.status}
+                successRedirect={{
+                    url: '/page/login',
+                    title: 'login'
+                }}
+            />
         </Page>
     )
 }

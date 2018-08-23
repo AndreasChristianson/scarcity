@@ -1,9 +1,7 @@
 export default {
     method: 'GET',
     path: '/api/auth/user',
-    handler: (request, h) => {
-        const {auth: {credentials}} = request;
-
+    handler: ({auth: {credentials}}, h) => {
         const user = credentials ? credentials.user : {};
 
         return h.response({

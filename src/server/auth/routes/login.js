@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import Joi from 'joi';
 
 import lookupUser from '../methods/lookup-user';
-import addPasswordResetNonce from '../methods/add-password-reset-nonce';
 
 const sessionDuration = 24 * 60 * 60 * 1000;
 
@@ -49,20 +48,16 @@ const unlockedAccount = ({locked}, request, h) => {
     return false;
 };
 
-const nonExpiredPassword = async ({id, expired_password: expired}, request, h) => {
+const nonExpiredPassword = ({expired_password: expired}, request, h) => {
     const {payload: {username}} = request;
 
     if (expired) {
         const message = 'Password reset required.';
-        const mustReset = true;
-        const nonce = await addPasswordResetNonce(id);
 
-        request.log('silly', `[${username}] may not login until resetting password.`);
+        request.log('silly', 'Password expired. Please reset your password.');
 
         return h.response({
-            message,
-            nonce,
-            mustReset
+            message
         }).code(401);
     }
 

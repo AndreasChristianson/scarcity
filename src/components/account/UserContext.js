@@ -24,7 +24,6 @@ class UserContextManager extends React.Component {
     login = async (credentials) => {
         const rawResponse = await fetchWrapper('/api/auth/login', {
             method: 'POST',
-            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -36,7 +35,6 @@ class UserContextManager extends React.Component {
 
     logout = async () => {
         const rawResponse = await fetchWrapper('/api/auth/logout', {
-            credentials: 'same-origin',
             method: 'POST'
         });
 

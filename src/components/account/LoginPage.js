@@ -1,10 +1,10 @@
 import React from 'react';
-import {Jumbotron, Alert} from 'reactstrap';
+import {Jumbotron, Col, Row} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Processing from '../shared/Processing';
-import Page from '../shared/Page';
+import StatusAlert from '../shared/StatusAlert';
+import Main from '../shared/Main';
 
 import {withUser} from './UserContext';
 import LoginForm from './LoginForm';
@@ -25,6 +25,14 @@ class LoginPage extends React.Component {
     }
 
     login = async (creds) => {
+        this.setState({
+            successRedirect: {
+                url: '/page/account',
+                title: 'account'
+            },
+            status: 'processing'
+        });
+
         const status = await this.props.userInfo.login(creds);
 
         this.setState({
@@ -32,38 +40,45 @@ class LoginPage extends React.Component {
         });
     }
 
-    getAlert = () => {
-        if (!this.state.status) {
-            return <Processing message="Looking up session status..." />;
-        }
-
-        const color = this.state.status.ok ?
-            'success' :
-            'danger';
-
-        return (
-            <Alert color={color}>
-                {this.state.status.message}
-            </Alert>
-        );
-    }
-
     render = () => (
-        <Page>
-            <h1>{'Log In'}</h1>
-            <LoginForm login={this.login} />
-            {this.getAlert()}
-            <Jumbotron>
-                <h3>{'Don\'t have an account?'}</h3>
-                <p>
-                    {'Please feel free to '}
-                    <Link to="/page/sign-up">
-                        {'sign up'}
-                    </Link>
-                    {'.'}
-                </p>
-            </Jumbotron>
-        </Page>
+        <Main>
+            <Row>
+                <Col>
+                    <h1>{'Log In'}</h1>
+                    <LoginForm login={this.login} />
+                    <StatusAlert
+                        status={this.state.status}
+                        successRedirect={this.state.successRedirect}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md="6">
+                    <Jumbotron>
+                        <h3>{'Don\'t have an account?'}</h3>
+                        <p>
+                            {'Please feel free to '}
+                            <Link to="/page/sign-up">
+                                {'sign up'}
+                            </Link>
+                            {'.'}
+                        </p>
+                    </Jumbotron>
+                </Col>
+                <Col md="6">
+                    <Jumbotron>
+                        <h3>{'Forgot your password?'}</h3>
+                        <p>
+                            {'Perhaps you\'d like to '}
+                            <Link to="/page/request-reset">
+                                {'reset your password'}
+                            </Link>
+                            {'.'}
+                        </p>
+                    </Jumbotron>
+                </Col>
+            </Row>
+        </Main>
     )
 }
 

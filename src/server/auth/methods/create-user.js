@@ -13,7 +13,7 @@ export default async (user) => {
         };
     } catch (error) {
         return {
-            conflict: true,
+            ok: false,
             message: `Unable to create user: ${error.message}`
         };
     }

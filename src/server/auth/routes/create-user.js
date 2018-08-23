@@ -6,7 +6,7 @@ import createUser from '../methods/create-user';
 const handler = async ({payload: {password, ...user}}, h) => {
     const hash = await bcrypt.hash(password, 11);
 
-    const {message, ok, conflict} = await createUser({
+    const {message, ok} = await createUser({
         hash,
         ...user
     });
@@ -15,11 +15,7 @@ const handler = async ({payload: {password, ...user}}, h) => {
         return h.response({message}).code(201);
     }
 
-    if (conflict) {
-        return h.response({message}).code(409);
-    }
-
-    return h.response({message}).code(500);
+    return h.response({message}).code(400);
 };
 
 export default {

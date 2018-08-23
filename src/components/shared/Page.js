@@ -1,15 +1,17 @@
 import React from 'react';
-import {Col, Row, Container} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 import PropTypes from 'prop-types';
 
+import Main from './Main';
+
 const Page = (props) => (
-    <Container tag="main">
+    <Main>
         <Row>
             <Col>
                 {props.children}
             </Col>
         </Row>
-    </Container>
+    </Main>
 );
 
 Page.propTypes = {

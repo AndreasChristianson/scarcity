@@ -1,14 +1,19 @@
 import logger from './logger';
 
 const getOptions = ({body, ...options}) => {
+    const ret = {
+        credentials: 'same-origin',
+        ...options
+    };
+
     if (body) {
         return {
-            ...options,
+            ...ret,
             body: JSON.stringify(body)
         };
     }
 
-    return options;
+    return ret;
 };
 
 export default async (url, options, ...rest) => {

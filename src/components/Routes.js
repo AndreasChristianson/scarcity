@@ -4,6 +4,7 @@ import {Switch, Route} from 'react-router';
 import AccountPage from './account/AccountPage';
 import LoginPage from './account/LoginPage';
 import SignUpPage from './account/SignUpPage';
+import ResetPasswordPage from './account/ResetPasswordPage';
 
 const NoMatch = () =>
     <div>{'No Match'}</div>;
@@ -27,6 +28,10 @@ const Routes = (props) => (
         <Route
             component={SignUpPage}
             path="/page/sign-up"
+        />
+        <Route
+            component={ResetPasswordPage}
+            path="/page/reset-password"
         />
         <Route component={NoMatch} />
     </Switch>
