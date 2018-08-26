@@ -22,7 +22,13 @@ env:
   - secure: F0n9k4VG4gW0qsuTm36LL83Gc0RVjUKr6B8AwmNTZPYmaGagcETxWaOnwO9wllJ1nSLV7zRFUNuj1PkmgVzaGYJS22sI3Wv7mv+F7lNAWbcSihMiNOxI3CCIK5AxdRevz/th78m/1RG90tGVkLqDoooglg9mIEj1a8eqPFEAmwo+oWB7hRW5/ac3glGC6bC2m7/DWeG/9o7TuMytjJp2zrnKx9DrOoAIsmq4S5nvMYxmthw1HRFoFLsMsDjPFu2mU4/dnhohZXlyV51sr4UwXCbSb3XFWfN5pNG0XBNZk3BqPquNJ7bno8eGQ3stmQk/y/JHFzCkla64wk+sSHER+3mv8jNeyR+FRUkjEZDQcs0fCVcAxMkB0ilMapQ4lOcEaF/neO00YeWeD+bzZzmNDG6S+otq7u5AVRSnPMkVYiroLx3D1kpja49FsC0+2Deee/H44pS4A8H1IxcTTQiQRSau7MGT9yEKO1uArpqvo7Q7IRApd/GkFZjwqS7R536Xwxsj2zdh/U73ydA3FXeTPW9qRTPRgsDX/+uKAOjsAh0qnfyEE5JIoHaUjDtrTS6ydTsq6CvMXQj0LfCuz2qcq5Iw6OfVQYCLHptZrxuXHOcg0R+sT9qys64huDL3j8h9+UilwZCW8wJDd282go3lve6lnKtpgxzopBOXa5OFqvI=
   - secure: Jm4t6t+oHtcQfeonEIztBatKxah9ynvLJszDkR58w7ujPQcln51DTqb0Gd8W2yzLPWt4IIA8GZMMn9EVQ0zC/j0iYl4RjJEczi/ZJ/1YzmhlIKLDQ0sCcvCxqW6uz80TYY/YE3Hj+jYOySRjHfidevqcFPEYGhh1ZDzMoOfIZZrv9eIkIWUmS8Ofid2BpaGAlBeWYtJBY8BHQwTsif/NywstPeSeJXyCyfRgMgaQQBox4z0EDts7P/+qocYUxqYcYNdLCSLKEnpsHIHCEz5ZURsrlC0q1du4gKwk8/ComE79lFtaL7rBJcXsZ33k6nbxhJ5+KpDqr1v0AcNmf4nGlA+OpRaIslNenbOOlP2us9QF6cWFr1YBFvPQc4aTwfabi4XMGyodNRlgJDz+DknheNPII7V5K0p7a5Ze+3qgLdv6qE4n/tl8E1YvWOT+hFkglg0c01ZeuFiKplEta8ScuZ9XVXCVl9zKnan/1JXLcrfQPRAPZq945Uk8XmwfQe5zDtym3Pu+mikj4566YXifoXMa5DPd7ev1qAW6SuF9yRo/C36fYyvjb3MY8+0SURsQWCQzKHXy1KwHCNJ4LqHtY7ged9LXpzgwStsUKOm8aQ6GaL6QO66S1jf60apYa0+0wn4ffQYNfy7u8GB3o3nzLmDa7w9o4IpAxnEBu3QSrCE=
 before_install:
+- python2 -c 'import os,sys,fcntl; flags = fcntl.fcntl(sys.stdout, fcntl.F_GETFL); fcntl.fcntl(sys.stdout, fcntl.F_SETFL, flags&~os.O_NONBLOCK);'
 - docker --version
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then
+    rm -rf $HOME/google-cloud-sdk;
+    export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
+    curl https://sdk.cloud.google.com | bash;
+  fi
 install:
 - npm install
 script:

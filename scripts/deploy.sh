@@ -2,11 +2,6 @@
 
 if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
 
-  if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then
-    rm -rf $HOME/google-cloud-sdk;
-    export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
-    curl https://sdk.cloud.google.com | bash;
-  fi
   # Add gcloud to $PATH
   source /home/travis/google-cloud-sdk/path.bash.inc
   openssl aes-256-cbc -K $encrypted_2b873ca40715_key -iv $encrypted_2b873ca40715_iv -in scarcity-project.json.enc -out scarcity-project.json -d
@@ -26,3 +21,5 @@ if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
     | envsubst \
     | kubectl apply --validate=true -f -
 fi
+
+kubectl rollout status deployment/scarcity-app
