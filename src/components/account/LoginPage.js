@@ -70,7 +70,7 @@ class LoginPage extends React.Component {
                         <h3>{'Forgot your password?'}</h3>
                         <p>
                             {'Perhaps you\'d like to '}
-                            <Link to="/page/request-reset">
+                            <Link to="/page/reset-password">
                                 {'reset your password'}
                             </Link>
                             {'.'}

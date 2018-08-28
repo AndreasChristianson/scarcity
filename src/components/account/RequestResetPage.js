@@ -1,10 +1,10 @@
 import React from 'react';
 
 import Page from '../shared/Page';
-import createUser from '../services/create-user';
+import requestReset from '../services/request-password-reset';
 import StatusAlert from '../shared/StatusAlert';
 
-import SignUpForm from './SignUpForm';
+import RequestResetForm from './RequestResetForm';
 
 class SignUpPage extends React.Component {
     constructor(props) {
@@ -13,12 +13,12 @@ class SignUpPage extends React.Component {
         };
     }
 
-    createUser = async (user) => {
+    requestReset = async (user) => {
         this.setState({
             status: 'processing'
         });
 
-        const status = await createUser(user);
+        const status = await requestReset(user);
 
         this.setState({
             status
@@ -27,14 +27,10 @@ class SignUpPage extends React.Component {
 
     render = () => (
         <Page>
-            <h1>{'Sign Up'}</h1>
-            <SignUpForm createUser={this.createUser} />
+            <h1>{'Reset Password'}</h1>
+            <RequestResetForm requestReset={this.requestReset} />
             <StatusAlert
                 status={this.state.status}
-                successRedirect={{
-                    url: '/page/login',
-                    title: 'login'
-                }}
             />
         </Page>
     )

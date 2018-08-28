@@ -1,40 +1,33 @@
 import Joi from 'joi';
 
-import changePassword from '../methods/change-password';
+import {lookupUserByEmail} from '../methods/lookup-user';
+import addPasswordResetNonce from '../methods/add-password-reset-nonce';
+import sendResetEmail from '../methods/send-reset-email';
 
-const handler = async ({auth: {credentials}, payload: {password, nonce, id: userId}}, h) => {
-    const validNonce = await changePassword.validateNonce(userId, nonce);
+const handler = async (request, h) => {
+    const {payload: {email}} = request;
+    const user = await lookupUserByEmail(email);
 
-    if (validNonce) {
-        await changePassword.updatePassword(userId, password);
-        await changePassword.useNonce(validNonce);
-        const message = 'Password changed.';
+    if (user) {
+        const nonce = await addPasswordResetNonce(user.id);
 
-        return h.response({message}).code(200);
-    } else if (credentials) {
-        await changePassword.updatePassword(credentials.user.id, password);
-        const message = 'Password changed.';
-
-        return h.response({message}).code(200);
+        request.log('silly', `Added pw reset nonce [${nonce}] for user ${user.name}(${user.id}).`);
+        sendResetEmail(user, nonce);
     }
 
-    const message = 'Invalid nonce/cookie.';
+    const message = `Reset email sent to ${email}`;
 
-    return h.response({message}).code(401);
+    return h.response({message}).code(200);
 };
 
 export default {
     method: 'POST',
-    path: '/api/reset-password',
+    path: '/api/auth/reset-password',
     options: {
-        auth: {
-            mode: 'try'
-        },
+        auth: {mode: 'try'},
         validate: {
             payload: {
-                nonce: Joi.string().hex().length(25),
-                id: Joi.number(),
-                password: Joi.string().required().min(5)
+                email: Joi.string().email().required()
             }
         }
     },

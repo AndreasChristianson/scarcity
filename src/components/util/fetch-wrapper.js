@@ -16,7 +16,7 @@ const getOptions = ({body, ...options}) => {
     return ret;
 };
 
-export default async (url, options, ...rest) => {
+export default async (url, options = {}, ...rest) => {
     let result;
 
     try {

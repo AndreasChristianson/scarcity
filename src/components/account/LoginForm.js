@@ -22,17 +22,10 @@ class LoginForm extends React.Component {
         await this.props.login(this.state);
     }
 
-    handleNameChange = (event) => {
-        const input = event.target.value;
-        const sanitized = input.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
-
-        this.setState({username: sanitized});
-    }
-
     render = () => (
         <Form onSubmit={this.login}>
             <RequiredInput
-                changeHandler={this.handleNameChange}
+                changeHandler={this.handleChange}
                 name="username"
                 value={this.state.username}
             />

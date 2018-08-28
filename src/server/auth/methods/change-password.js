@@ -1,26 +1,38 @@
 import bcrypt from 'bcryptjs';
 
 import pg from '../../pg/pg';
+import logger from '../../../logger';
 
 const resetExpiration = 24 * 60 * 60 * 1000;
 
-const isValid = (nonce) => nonce &&
-    !nonce.used &&
-    nonce.stamp.valueOf() + resetExpiration > Date.now().valueOf();
+const isValid = (nonce) => {
+    if (!nonce) {
+        logger.debug('Nonce not found.');
 
-const validateNonce = async (userId, nonceString) => {
-    const {rows: [nonce]} = await pg.query(
-        `select * from password_reset_nonce 
-            where user_id = $1 
-            and nonce = $2`,
-        [userId, nonceString]
-    );
+        return false;
+    } else if (nonce.used) {
+        logger.debug(`Nonce #${nonce.id} was already used.`);
 
-    if (isValid(nonce)) {
-        return nonce.id;
+        return false;
+    } else if (nonce.stamp.valueOf() + resetExpiration < Date.now().valueOf()) {
+        logger.debug(`Nonce #${nonce.id} is expired (was issued ${nonce.stamp}).`);
+
+        return false;
     }
 
-    return false;
+    logger.debug(`Nonce #${nonce.id} found and is valid.`);
+
+    return nonce;
+};
+
+const validateNonce = async (nonceString) => {
+    const {rows: [nonce]} = await pg.query(
+        `select * from password_reset_nonce 
+            where nonce = $1`,
+        [nonceString]
+    );
+
+    return isValid(nonce);
 };
 
 const shouldUpdateOneRecord = (rowCount) => {
@@ -40,6 +52,7 @@ const updatePassword = async (userId, password) => {
     );
 
     shouldUpdateOneRecord(rowCount);
+    logger.debug(`Password for user #${userId} updated.`);
 };
 
 const consumeNonce = async (nonceId) => {
@@ -51,6 +64,7 @@ const consumeNonce = async (nonceId) => {
     );
 
     shouldUpdateOneRecord(rowCount);
+    logger.debug(`Nonce #${nonceId} consumed.`);
 };
 
 export default {

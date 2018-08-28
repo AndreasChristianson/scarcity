@@ -2,30 +2,29 @@ import React from 'react';
 import queryString from 'query-string';
 
 import Page from '../shared/Page';
-import resetPassword from '../services/reset-password';
+import changePassword from '../services/change-password';
 import StatusAlert from '../shared/StatusAlert';
 
-import ResetPasswordForm from './ResetPasswordForm';
+import ChangePasswordForm from './ChangePasswordForm';
 
-class ResetPasswordPage extends React.Component {
+class ChangePasswordPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
     }
 
-    resetPassword = async (password) => {
+    changePassword = async (password) => {
         this.setState({
             status: 'processing'
         });
 
         const {location: {search}} = this.props;
 
-        const {nonce, id} = queryString.parse(search);
+        const {nonce} = queryString.parse(search);
 
-        const status = await resetPassword({
+        const status = await changePassword({
             nonce,
-            password,
-            id
+            password
         });
 
         this.setState({
@@ -36,7 +35,7 @@ class ResetPasswordPage extends React.Component {
     render = () => (
         <Page>
             <h1>{'Change Password'}</h1>
-            <ResetPasswordForm resetPassword={this.resetPassword} />
+            <ChangePasswordForm changePassword={this.changePassword} />
             <StatusAlert
                 status={this.state.status}
                 successRedirect={{
@@ -48,4 +47,4 @@ class ResetPasswordPage extends React.Component {
     )
 }
 
-export default ResetPasswordPage;
+export default ChangePasswordPage;

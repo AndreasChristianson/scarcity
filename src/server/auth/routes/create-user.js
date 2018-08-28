@@ -20,13 +20,13 @@ const handler = async ({payload: {password, ...user}}, h) => {
 
 export default {
     method: 'POST',
-    path: '/api/create-user',
+    path: '/api/auth/create-user',
     options: {
         auth: {mode: 'try'},
         validate: {
             payload: {
                 name: Joi.string().required().regex(/^[a-z0-9_]{5,}$/),
-                email: Joi.string().required(),
+                email: Joi.string().email().required(),
                 password: Joi.string().required().min(5)
             }
         }

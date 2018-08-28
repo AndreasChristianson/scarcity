@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import RequiredInput from '../shared/RequiredInput';
 import FormSubmit from '../shared/FormSubmit';
 
-class ResetPasswordForm extends React.Component {
+class ChangePasswordForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -15,11 +15,11 @@ class ResetPasswordForm extends React.Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    resetPassword = async (event) => {
+    changePassword = async (event) => {
         event.preventDefault();
         const {password} = this.state;
 
-        await this.props.resetPassword(password);
+        await this.props.changePassword(password);
     }
 
     passwordValid = () => this.state.password
@@ -28,7 +28,7 @@ class ResetPasswordForm extends React.Component {
     passwordVerifyValid = () => this.state.passwordVerify === this.state.password;
 
     render = () => (
-        <Form onSubmit={this.resetPassword}>
+        <Form onSubmit={this.changePassword}>
             <RequiredInput
                 changeHandler={this.handleChange}
                 helpText="Minimum length five characters."
@@ -56,8 +56,8 @@ class ResetPasswordForm extends React.Component {
     )
 }
 
-ResetPasswordForm.propTypes = {
-    resetPassword: PropTypes.func
+ChangePasswordForm.propTypes = {
+    changePassword: PropTypes.func
 };
 
-export default ResetPasswordForm;
+export default ChangePasswordForm;

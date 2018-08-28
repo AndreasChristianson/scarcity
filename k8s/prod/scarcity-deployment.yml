@@ -39,6 +39,8 @@ spec:
             value: $REDIS_HOST
           - name: IRON_SECRET
             value: $IRON_SECRET
+          - name: EMAIL_PASSWORD
+            value: $EMAIL_PASSWORD
         imagePullPolicy: Always
         readinessProbe:
           httpGet:

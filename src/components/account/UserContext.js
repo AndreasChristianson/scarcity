@@ -14,9 +14,7 @@ class UserContextManager extends React.Component {
     }
 
     componentDidMount = async () => {
-        const rawResponse = await fetchWrapper('/api/auth/user', {
-            credentials: 'same-origin'
-        });
+        const rawResponse = await fetchWrapper('/api/auth/user');
 
         this.processResult(rawResponse);
     }
@@ -41,9 +39,7 @@ class UserContextManager extends React.Component {
         return this.processResult(rawResponse);
     }
 
-    processResult = (rawResponse) => {
-        const {user = {}, message, ok} = rawResponse;
-
+    processResult = ({user = {}, message, ok}) => {
         this.setState({
             user
         });

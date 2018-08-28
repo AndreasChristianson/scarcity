@@ -5,6 +5,7 @@ import cacheTest from './cache-test/cache-test-plugin';
 import pg from './pg/pg-plugin';
 import ws from './websockets/websocket-plugin';
 import auth from './auth/auth-plugin';
+import emailPlugin from './email/email-plugin';
 
 export default [
     logging,
@@ -12,5 +13,6 @@ export default [
     inert,
     pg,
     ws,
-    auth
+    auth,
+    emailPlugin
 ];

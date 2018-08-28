@@ -7,12 +7,12 @@ import Main from '../shared/Main';
 
 import {withUser} from './UserContext';
 
-const AccountPage = (props) => {
-    const rows = Object.keys(props.userInfo.user)
+const AccountPage = ({userInfo: {user}}) => {
+    const rows = Object.keys(user)
         .map((key) =>
             <tr key={key}>
                 <td>{key}</td>
-                <td>{props.userInfo.user[key]}</td>
+                <td>{user[key]}</td>
             </tr>
         );
 
@@ -20,7 +20,7 @@ const AccountPage = (props) => {
         <Main>
             <Row>
                 <Col>
-                    <h1>{`Account: ${props.userInfo.user}`}</h1>
+                    <h1>{`Account: ${user.name}`}</h1>
                 </Col>
             </Row>
             <Row>
@@ -28,7 +28,7 @@ const AccountPage = (props) => {
                     <Button
                         outline
                         tag={Link}
-                        to="/page/reset-password"
+                        to="/page/change-password"
                     >{'Change Password'}
                     </Button>
 
