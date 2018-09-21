@@ -1,13 +1,15 @@
 import React from 'react';
-import {Jumbotron, Col, Row} from 'reactstrap';
+import {Jumbotron, Col, Row, Form} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Redirect from 'react-router-dom/Redirect';
 
-import StatusAlert from '../shared/StatusAlert';
+import StatusAlert from '../shared/alerts/StatusAlert';
 import Main from '../shared/Main';
+import RequiredInput from '../shared/RequiredInput';
+import FormSubmit from '../shared/FormSubmit';
 
 import {withUser} from './UserContext';
-import LoginForm from './LoginForm';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -24,19 +26,24 @@ class LoginPage extends React.Component {
         });
     }
 
-    login = async (creds) => {
+    handleChange = (event) =>
+        this.setState({[event.target.name]: event.target.value});
+
+    login = async (event) => {
+        event.preventDefault();
         this.setState({
-            successRedirect: {
-                url: '/page/account',
-                title: 'account'
-            },
             status: 'processing'
         });
 
-        const status = await this.props.userInfo.login(creds);
+        const {username, password} = this.state;
+        const status = await this.props.userInfo.login({
+            username,
+            password
+        });
 
         this.setState({
-            status
+            status,
+            onSuccess: <Redirect to="/page/account" />
         });
     }
 
@@ -45,10 +52,23 @@ class LoginPage extends React.Component {
             <Row>
                 <Col>
                     <h1>{'Log In'}</h1>
-                    <LoginForm login={this.login} />
+                    <Form onSubmit={this.login}>
+                        <RequiredInput
+                            changeHandler={this.handleChange}
+                            name="username"
+                            value={this.state.username}
+                        />
+                        <RequiredInput
+                            changeHandler={this.handleChange}
+                            name="password"
+                            type={'password'}
+                            value={this.state.password}
+                        />
+                        <FormSubmit disabled={!this.state.username || !this.state.password} />
+                    </Form>
                     <StatusAlert
                         status={this.state.status}
-                        successRedirect={this.state.successRedirect}
+                        success={this.state.onSuccess}
                     />
                 </Col>
             </Row>

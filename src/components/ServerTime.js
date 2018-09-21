@@ -1,71 +1,70 @@
 import React from 'react';
-import {Client as NesClient} from 'nes';
+import PropTypes from 'prop-types';
 
-export default class ServerTime extends React.Component {
+import {withWebsocket} from './WebsocketContext';
+
+class ServerTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             route: 'not-yet-fetched',
             subscription: 'not-yet-fetched',
-            broadcast: 'not-yet-fetched',
             id: 'none',
-            client: new NesClient(`ws://${window.location.host}`)
+            cancelables: []
         };
-        this.state.client.onUpdate = (update) =>
-            this.setState({broadcast: update});
-        this.connect = this.connect.bind(this);
     }
 
-    async componentDidMount() {
-        await this.connect();
-    }
-
-    async connect(e) {
-        const auth = {
-            headers: {
-                Cookie: document.cookie
+    componentWillMount = () => {
+        const timeSubscription = this.props.cancelableSubscription(
+            '/server/time',
+            (update) => {
+                this.setState({
+                    subscription: update
+                });
             }
-        };
-
-        await this.state.client.connect({auth});
-        this.subscribe();
-        this.fetchRouteData();
-    }
-
-    subscribe() {
-        this.state.client.subscribe('/server/time', (update, flags) => {
-            this.setState({
-                subscription: update
-            });
-        });
-        this.state.client.subscribe('/item/myid/info', (update, flags) => {
-            this.setState({
-                id: update
-            });
-        });
-    }
-
-    async fetchRouteData() {
-        const {payload: time} = await this.state.client.request('server/time');
-
-        this.setState({
-            route: time
-        });
-    }
-
-    render() {
-        return (
-            <ul>
-                <input
-                    onClick={this.connect}
-                    type="button"
-                    value="connect"
-                />
-                <li>{'Time via route: '}{this.state.route}</li>
-                <li>{'Time via subscription: '}{this.state.subscription}</li>
-                <li>{'Time via broadcast: '}{this.state.broadcast}</li>
-                <li>{'Listening to `/item/{id}/info` for itemId `myid`: '}{this.state.id}</li>
-            </ul>
         );
+
+        const idSubscription = this.props.cancelableSubscription(
+            '/item/myid/info',
+            (update) => {
+                this.setState({
+                    id: update
+                });
+            }
+        );
+
+        const timeFetch = this.props.accessWebservice(async (ws) => {
+            const {payload: time} = await ws.request('server/time');
+
+            this.setState({
+                route: time
+            });
+        });
+
+        this.setState(({cancelables}) => ({cancelables: [
+            ...cancelables,
+            timeSubscription,
+            idSubscription,
+            timeFetch
+        ]}));
+    };
+
+    componentWillUnmount = () => {
+        this.state.cancelables.forEach((c) => c.cancel());
     }
+
+    render = () => (
+        <ul>
+            <li>{'Time via route: '}{this.state.route}</li>
+            <li>{'Time via subscription: '}{this.state.subscription}</li>
+            <li>{'Listening to `/item/{id}/info` for itemId `myid`: '}{this.state.id}</li>
+        </ul>
+    );
 }
+
+ServerTime.propTypes = {
+    cancelableSubscription: PropTypes.func,
+    accessWebservice: PropTypes.func
+};
+
+export default withWebsocket(ServerTime);

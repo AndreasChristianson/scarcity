@@ -1,5 +1,4 @@
 import config from 'config';
-
 import nes from 'nes';
 import Multines from 'multines';
 
@@ -38,9 +37,6 @@ export default {
         });
 
         server.subscription('/server/time', {
-            auth: {
-                scope: ['can-listen-to-time']
-            }
         });
 
         server.events.on('start', () => {

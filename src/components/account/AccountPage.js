@@ -20,7 +20,7 @@ const AccountPage = ({userInfo: {user}}) => {
         <Main>
             <Row>
                 <Col>
-                    <h1>{`Account: ${user.name}`}</h1>
+                    <h1>{user.name}</h1>
                 </Col>
             </Row>
             <Row>
@@ -36,7 +36,6 @@ const AccountPage = ({userInfo: {user}}) => {
             </Row>
             <Row>
                 <Col>
-                    <h1>{'Attributes'}</h1>
                     <Table>
                         <thead>
                             <tr>

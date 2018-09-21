@@ -6,9 +6,10 @@ import LoginPage from './account/LoginPage';
 import SignUpPage from './account/SignUpPage';
 import ResetPasswordPage from './account/RequestResetPage';
 import ChangePasswordPage from './account/ChangePasswordPage';
+import ServerTime from './ServerTime';
+import GamePage from './game/GamePage';
+import PrivateRoute from './PrivateRoute';
 
-const NoMatch = () =>
-    <div>{'No Match'}</div>;
 const Home = () =>
     <div>{'Home'}</div>;
 const Routes = (props) => (
@@ -22,7 +23,7 @@ const Routes = (props) => (
             component={LoginPage}
             path="/page/Login"
         />
-        <Route
+        <PrivateRoute
             component={AccountPage}
             path="/page/Account"
         />
@@ -38,7 +39,11 @@ const Routes = (props) => (
             component={ChangePasswordPage}
             path="/page/change-password"
         />
-        <Route component={NoMatch} />
+        <PrivateRoute
+            component={GamePage}
+            path="/page/game/:id(\d*)"
+        />
+        <Route component={ServerTime} />
     </Switch>
 );
 

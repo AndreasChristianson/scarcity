@@ -2,17 +2,17 @@ import React from 'react';
 import {Alert} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const ScarcityAlert = ({message, color, subMessage}) => (
+const ScarcityAlert = ({color, children, subMessage}) => (
     <Alert color={color}>
-        <div className="alert-heading">{message}</div>
+        <div className="alert-heading">{children}</div>
         <div>{subMessage}</div>
     </Alert>
 );
 
 ScarcityAlert.propTypes = {
-    message: PropTypes.string,
-    color: PropTypes.string,
-    subMessage: PropTypes.node
+    children: PropTypes.node,
+    subMessage: PropTypes.node,
+    color: PropTypes.string
 };
 
 export default ScarcityAlert;

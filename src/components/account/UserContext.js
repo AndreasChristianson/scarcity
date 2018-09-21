@@ -8,6 +8,7 @@ const UserContext = React.createContext();
 class UserContextManager extends React.Component {
     constructor(props) {
         super(props);
+        this.resolveGetUser = [];
         this.state = {
             user: {}
         };
@@ -40,6 +41,10 @@ class UserContextManager extends React.Component {
     }
 
     processResult = ({user = {}, message, ok}) => {
+        if (user.id) {
+            this.resolveGetUser.forEach((r) => r(user));
+        }
+
         this.setState({
             user
         });
@@ -50,13 +55,22 @@ class UserContextManager extends React.Component {
         };
     }
 
+    getUser = () => {
+        if (this.state.user.id) {
+            return Promise.resolve(this.state.user);
+        }
+
+        return new Promise((r) => this.resolveGetUser.push(r));
+    }
+
     render = () => (
         <UserContext.Provider
             value={{
                 user: this.state.user,
                 login: this.login,
                 logout: this.logout,
-                isLoggedIn: Boolean(this.state.user.id)
+                isLoggedIn: Boolean(this.state.user.id),
+                getUser: this.getUser
             }}
         >
             {this.props.children}
@@ -76,16 +90,16 @@ export const withUser = (WrappedComponent) => {
 
     const WithUser = (props) => (
         <UserContext.Consumer>
-            {(userInfo) =>
+            {(cxt) =>
                 <WrappedComponent
                     {...props}
-                    userInfo={userInfo}
+                    userInfo={cxt}
                 />
             }
         </UserContext.Consumer>
     );
 
-    WithUser.displayName = `WithSubscription(${displayName})`;
+    WithUser.displayName = `WithUser(${displayName})`;
 
     return WithUser;
 };
