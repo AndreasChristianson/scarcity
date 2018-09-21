@@ -18,9 +18,11 @@ class GamePage extends React.Component {
         const gameSubscription = this.props.cancelableSubscription(
             `/game/${this.state.gameId}`,
             (update) => {
-                this.setState({
-                    subscription: update
-                });
+                /*
+                 * this.setState({
+                 *     subscription: update
+                 * });
+                 */
             }
         );
 
@@ -37,16 +39,11 @@ class GamePage extends React.Component {
     render = () => (
         <Main>
             <Row>
-                <Col>
-                </Col>
+                <Col />
             </Row>
             <Row>
-                <Col md="6">
-
-                </Col>
-                <Col md="6">
-
-                </Col>
+                <Col md="6" />
+                <Col md="6" />
             </Row>
         </Main>
     )
